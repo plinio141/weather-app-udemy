@@ -3,9 +3,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Location from './Location';
 import WeatherData from './WeatherData'
 import transformWeather from './../../services/transformWeather'
-import { api_weather } from './../../constants/api_url'
 import PropTypes from 'prop-types';
 import './styles.css';
+import getUrlWeatherByCity from '../../services/getUrlWeatherByCity';
 
 class WeatherLocation extends Component{
 
@@ -19,12 +19,10 @@ class WeatherLocation extends Component{
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
         this.handleUpdateClick();
     }
     
     componentDidUpdate(prevProps, prevState) {
-        console.log("componentDidUpdate");
     }
 
     //Se recomienda no usar
@@ -40,6 +38,7 @@ class WeatherLocation extends Component{
     
 
     handleUpdateClick = () =>{
+        const api_weather = getUrlWeatherByCity(this.state.city);
         fetch(api_weather).then(resolve =>{
             return resolve.json();            
         }).then(data => {
@@ -51,15 +50,16 @@ class WeatherLocation extends Component{
     }
 
     render (){
+        const { onWeatherLocationClick } = this.props;
         const { city, data } = this.state;
         return (
-            <div className="weatherLocationCont">
+            <div className="weatherLocationCont" onClick={onWeatherLocationClick}>
                 <Location city={city}></Location>
                 {data != null ?
                     <WeatherData data={data}></WeatherData> :
                     <CircularProgress size={50}/>
                 }
-                <button onClick={this.handleUpdateClick}>Actualizar</button>
+                {/* <button onClick={this.handleUpdateClick}>Actualizar</button> */}
             </div>
         )
     }
@@ -67,6 +67,7 @@ class WeatherLocation extends Component{
 
 WeatherLocation.prototyped = {
     city: PropTypes.string.isRequired,
+    onWeatherLocationClick: PropTypes.func,
 }
 
 export default WeatherLocation;
