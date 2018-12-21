@@ -5,9 +5,11 @@
   "dependencies": {
     "@material-ui/core": "^3.6.1",
     "convert-units": "^2.3.4",
+    "moment": "^2.23.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-flexbox-grid": "^2.1.2",
     "react-scripts": "2.1.1",
     "react-weathericons": "^1.0.4"
   },
