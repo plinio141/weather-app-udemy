@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import LocationList from './components/LocationList';
 import { Grid, Col, Row } from 'react-flexbox-grid';
-import { setCity } from './actions';
-import ForecastExtended from './components/ForecastExtended';
-import PropTypes from 'prop-types';
+import ForecastExtendedContainer from './containers/ForecastExtendedContainer';
+import LocationListContainer from './containers/LocationListContainer';
 
 const cities = [
   'Buenos Aires,ar',
@@ -28,13 +25,7 @@ class App extends Component {
     this.state = { city: null };
   }
 
-  handleSelectionLocation = city => {
-    this.setState({city});
-    this.props.setCity(city);
-  }
-
   render() {
-    const {city} = this.state;
     return (
       <Grid>
         <Row>
@@ -50,17 +41,14 @@ class App extends Component {
           <Col xs={12} md={6}>
             <div className="App">
               <header className="App-header">
-                <LocationList cities =  {cities} 
-                  onSelectedLocation={this.handleSelectionLocation} />
+                <LocationListContainer cities =  {cities} />
               </header>
             </div>
           </Col>
           <Col xs={12} md={6}>
           <Paper>
             <div className="detail" elevation={4}>
-              { city &&
-                <ForecastExtended city={city}/>
-              }
+              <ForecastExtendedContainer/>
             </div>
           </Paper>
           </Col>
@@ -70,12 +58,5 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  setCity: PropTypes.func.isRequired,
-}
 
-const mapDispatchToProps = dispatch => ({
-  setCity: value => dispatch(setCity(value))
-});
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;
